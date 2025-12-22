@@ -2,18 +2,28 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AccessLogController;
+
 
 Route::get('/', function () {
-    return view('welcome');
+    return auth()->check()
+        ? redirect()->route('dashboard')
+        : redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'active'])->group(function () {
 
-Route::get('/admin-only', function () {
-	return 'OK admin';
-})->middleware(['auth', 'role:admin']);
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::middleware(['role:admin'])->prefix('admin')->group(function () {
+        Route::resource('users', UserController::class);
+		Route::get('/access-logs', [AccessLogController::class, 'index'])->name('admin.access-logs.index');
+    });
+
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

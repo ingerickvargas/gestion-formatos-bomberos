@@ -39,14 +39,18 @@ class RolesAndPermissionsSeeder extends Seeder
             'dashboard.view',
         ]);
 
-        $user = User::firstOrCreate(
+        $user = User::updateOrCreate(
             ['email' => 'admin@bomberos.local'],
             [
-                'name' => 'Administrador',
-                'password' => Hash::make('Admin#12345'),
+                'first_name' => 'Administrador',
+				'last_name'  => 'Sistema',
+				'document'   => '0000000000',
+				'phone'      => null,
+				'password'   => Hash::make('Admin#12345'),
+				'active'     => true,
             ]
         );
 
-        $user->assignRole('admin');
+        $user->syncRoles(['admin']);
     }
 }
