@@ -13,6 +13,9 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'active'])->group(function () {
+	Route::view('/preoperacional', 'modules.placeholder')->name('preoperacional.index');
+    Route::view('/inventario', 'modules.placeholder')->name('inventario.index');
+    Route::view('/formatos', 'modules.placeholder')->name('formatos.index');
 
     Route::get('/dashboard', function () {
         return view('dashboard');

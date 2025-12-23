@@ -14,23 +14,32 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+	<body class="font-sans antialiased">
+        <div
+            x-data="{ sidebarOpen: false }"
+            class="min-h-screen bg-gray-100"
+        >
+            {{-- NAV + SIDEBAR --}}
             @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+            {{-- CONTENIDO (se corre cuando sidebarOpen=true en pantallas lg+) --}}
+            <div class="transition-all duration-200" :class="sidebarOpen ? 'lg:pl-72' : 'lg:pl-0'">
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+                <!-- Page Heading -->
+                @isset($header)
+                    <header class="bg-white shadow">
+                        <div class="w-full py-6 px-4 sm:px-6 lg:px-8">
+                            {{ $header }}
+                        </div>
+                    </header>
+                @endisset
+
+                <!-- Page Content -->
+                <main class="w-full px-4 sm:px-6 lg:px-8 py-6">
+                    {{ $slot }}
+                </main>
+
+            </div>
         </div>
     </body>
 </html>
