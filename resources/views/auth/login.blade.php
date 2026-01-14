@@ -5,18 +5,10 @@
             class="absolute inset-0 bg-center bg-cover bg-no-repeat bg-fixed"
             style="background-image: url('{{ asset('images/login-bomberos.jpg') }}');"
         ></div>
-
-        {{-- Overlay degradado + leve oscurecimiento --}}
         <div class="absolute inset-0 bg-gradient-to-b from-black/5 via-black/55 to-black/70"></div>
-
-        {{-- Contenedor centrado --}}
         <div class="relative min-h-screen flex items-center justify-center px-4">
             <div class="w-full max-w-sm">
-
-                {{-- Card glass --}}
                 <div class="bg-black/35 backdrop-blur-md border border-white/20 shadow-2xl rounded-xl px-8 py-10">
-
-                    {{-- Logo --}}
 					<div class="flex justify-center -mt-16 mb-3">
 						<div class="w-20 h-20 shadow-xl flex items-center justify-center">
 							<img
@@ -30,8 +22,6 @@
                     <h1 class="text-center text-white text-xl font-semibold mb-6">
                         Sistema de gestión de formatos
                     </h1>
-
-                    {{-- Status / errores --}}
                     <x-auth-session-status class="mb-4" :status="session('status')" />
                     @if ($errors->any())
                         <div class="mb-4 text-sm text-red-200">
@@ -41,8 +31,6 @@
 
                     <form method="POST" action="{{ route('login') }}" class="space-y-5">
                         @csrf
-
-                        {{-- Email (estilo underline) --}}
                         <div>
                             <label class="block text-white/90 text-sm font-medium mb-1">Email</label>
                             <input
@@ -58,8 +46,6 @@
                                        focus:ring-0 px-0 py-2"
                             >
                         </div>
-
-                        {{-- Password (estilo underline) --}}
                         <div>
                             <label class="block text-white/90 text-sm font-medium mb-1">Contraseña</label>
                             <input
@@ -73,8 +59,6 @@
                                        focus:ring-0 px-0 py-2"
                             >
                         </div>
-
-                        {{-- Botón tipo “pill” azul --}}
                         <button
                             type="submit"
                             class="w-full mt-2 py-2.5 rounded-full bg-red-500 text-white font-semibold

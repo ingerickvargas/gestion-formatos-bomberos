@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
 
-                    <form method="POST" action="{{ route('users.store') }}" class="space-y-4">
+                    <form method="POST" action="{{ route('admin.users.store') }}" class="space-y-4">
                         @csrf
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -72,8 +72,8 @@
                         </div>
 
                         <div class="flex items-center justify-end gap-3 pt-2">
-                            <a href="{{ route('users.index') }}" class="text-gray-600 hover:underline">Cancelar</a>
-                            <x-primary-button>Guardar</x-primary-button>
+                            <a href="{{ route('admin.users.index') }}" class="px-4 py-2 rounded border bg-sky-800 text-white">Cancelar</a>
+                            <button class="px-4 py-2 bg-red-600 text-white rounded">Guardar</button>
                         </div>
                     </form>
 
