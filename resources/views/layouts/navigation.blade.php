@@ -1,10 +1,12 @@
-<nav class="bg-white border-b border-gray-100">
+<nav class="bg-white border-b border-gray-100 transition-all duration-200" :class="sidebarOpen ? 'lg:pl-72' : 'lg:pl-0'">
     <div class="w-full px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex items-center gap-2">
-                <button
+				<button
                     type="button"
                     @click="sidebarOpen = true"
+					x-show="!sidebarOpen"
+					x-transition.opacity
                     class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100
                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
                     aria-label="Abrir menú"
@@ -13,17 +15,19 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
-                <img
-					src="{{ asset('images/logo-bomberos.png') }}"
-					alt="Bomberos La Tebaida"
-					class="w-10 h-10 object-contain"
-				/>
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
+					<img
+						src="{{ asset('images/logo-bomberos.png') }}"
+						alt="Bomberos La Tebaida"
+						class="w-10 h-10 object-contain"
+					/>
+				</a>
             </div>
             <div class="flex items-center">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md
-                                       text-gray-600 bg-white hover:text-gray-900 focus:outline-none transition ease-in-out duration-150">
+                                       text-gray-600 bg-red hover:text-gray-900 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ms-1">
@@ -35,15 +39,11 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Cerrar Sesión') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -67,7 +67,7 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="translate-x-0"
         x-transition:leave-end="-translate-x-full"
-        class="fixed left-0 top-0 z-50 h-full w-72 bg-white shadow-xl border-r"
+        class="fixed left-0 top-0 z-50 h-full w-72 bg-white shadow-xl border-r h-screen overflow-y-auto"
         style="display:none;"
         role="dialog"
         aria-modal="true"
@@ -98,38 +98,113 @@
             <a href="{{ route('dashboard') }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('dashboard') ? 'bg-gray-100 font-semibold' : '' }}">
                 <span class="w-5 text-center">🏠</span>
-                <span>Dashboard</span>
+                <span>Inicio</span>
             </a>
 
-            <a href="{{ route('preoperacional.index') }}"
+            <a href="{{ route('modules.vehicle-preoperational-checks.index') }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('preoperacional.*') ? 'bg-gray-100 font-semibold' : '' }}">
                 <span class="w-5 text-center">🚒</span>
                 <span>Preoperacional Vehículos</span>
             </a>
 
-            <a href="{{ route('inventario.index') }}"
-               class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('inventario.*') ? 'bg-gray-100 font-semibold' : '' }}">
-                <span class="w-5 text-center">📦</span>
-                <span>Inventario de Insumos</span>
-            </a>
+            <a href="{{ route('admin.supplies.index') }}"
+			   class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('admin.supplies.*') ? 'bg-gray-100 font-semibold' : '' }}">
+				<span class="w-5 text-center">📦</span>
+				<span>Inventario de Insumos</span>
+			</a>
+			<div x-data="{ openFormats: {{ request()->is('formatos/*') ? 'true' : 'false' }} }" class="space-y-1">
+				<button
+					type="button"
+					@click="openFormats = !openFormats"
+					class="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-100
+						   {{ request()->is('formatos/*') ? 'bg-gray-100 font-semibold' : '' }}"
+				>
+					<span class="flex items-center gap-3">
+						<span class="w-5 text-center">📄</span>
+						<span>Formatos</span>
+					</span>
+					<svg class="w-4 h-4 text-gray-500 transform transition"
+						 :class="openFormats ? 'rotate-180' : ''"
+						 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+					</svg>
+				</button>
 
-            <a href="{{ route('formatos.index') }}"
-               class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('formatos.*') ? 'bg-gray-100 font-semibold' : '' }}">
-                <span class="w-5 text-center">📄</span>
-                <span>Formatos</span>
-            </a>
+				<div x-show="openFormats" x-collapse class="pl-9 space-y-1">
+					<a
+						href="{{ route('formats.vehicle-inventories.index') }}"
+						class="block px-3 py-2 rounded-md hover:bg-gray-100
+							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
+					>
+						Inventario por vehículo
+					</a>
 
+					<a
+						href="{{ route('formats.vehicle-environment-logs.index') }}"
+						class="block px-3 py-2 rounded-md hover:bg-gray-100
+							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
+					>
+						Temperatura - Humedad Vehículos
+					</a>
+					<a
+						href="{{ route('formats.vehicle-shift-handoffs.index') }}"
+						class="block px-3 py-2 rounded-md hover:bg-gray-100
+							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
+					>
+						Entrega de turno
+					</a>
+					<a
+						href="{{ route('formats.vehicle-cleanings.index') }}"
+						class="block px-3 py-2 rounded-md hover:bg-gray-100
+							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
+					>
+						Formato aseo
+					</a>
+					<a
+						href="{{ route('formats.patient-records.index') }}"
+						class="block px-3 py-2 rounded-md hover:bg-gray-100
+							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
+					>
+						Registro pacientes
+					</a>
+					@hasanyrole('admin|operativo')
+					<a
+						href="{{ route('formats.vehicle-exit-reports.index') }}"
+						class="block px-3 py-2 rounded-md hover:bg-gray-100
+							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
+					>
+						Informe salida vehicular
+					</a>
+					@endhasanyrole
+					@hasanyrole('admin|conductor|operativo')
+					<a
+						href="{{ route('formats.vehicle-exit-reports.pending') }}"
+						class="block px-3 py-2 rounded-md hover:bg-gray-100
+							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
+					>
+						Mis informes pendientes
+					</a>
+					@endhasanyrole
+					<a href="{{ route('formats.patient-care-forms.index') }}"
+					   class="block px-3 py-2 rounded-md hover:bg-gray-100">
+					   Formulario atención pacientes
+					</a>
+				</div>
             @role('admin')
                 <div class="px-2 pt-4 pb-2 text-xs font-semibold text-gray-400 uppercase">
                     Administración
                 </div>
 
-                <a href="{{ route('users.index') }}"
+                <a href="{{ route('admin.users.index') }}"
                    class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('users.*') ? 'bg-gray-100 font-semibold' : '' }}">
                     <span class="w-5 text-center">👥</span>
                     <span>Usuarios</span>
                 </a>
-
+				<a href="{{ route('admin.vehicles.index') }}"
+				   class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('admin.vehicles.*') ? 'bg-gray-100 font-semibold' : '' }}">
+				  <span class="w-5 text-center">🚑</span>
+				  <span>Vehículos</span>
+				</a>
                 <a href="{{ route('admin.access-logs.index') }}"
                    class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('admin.access-logs.*') ? 'bg-gray-100 font-semibold' : '' }}">
                     <span class="w-5 text-center">🛡️</span>
@@ -137,8 +212,5 @@
                 </a>
             @endrole
         </nav>
-        <div class="absolute bottom-0 left-0 right-0 border-t p-3 text-xs text-gray-500">
-            © {{ date('Y') }} Bomberos La Tebaida
-        </div>
     </aside>
 </nav>

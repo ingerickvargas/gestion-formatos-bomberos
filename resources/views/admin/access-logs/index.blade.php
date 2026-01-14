@@ -9,8 +9,6 @@
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-            {{-- Filtros --}}
             <div class="bg-white shadow-sm sm:rounded-lg p-6 mb-6">
                 <form method="GET" class="grid grid-cols-1 md:grid-cols-6 gap-4">
 
@@ -51,19 +49,17 @@
                     </div>
 
                     <div class="md:col-span-6 flex items-center gap-3 mt-2">
-                        <button class="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800">
+                        <button class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-gray-800">
                             Filtrar
                         </button>
 
                         <a href="{{ route('admin.access-logs.index') }}"
-                           class="px-4 py-2 bg-gray-200 text-gray-900 rounded-md hover:bg-gray-300">
+                           class="px-4 py-2 bg-sky-800 text-white rounded-md hover:bg-gray-300">
                             Limpiar
                         </a>
                     </div>
                 </form>
             </div>
-
-            {{-- Tabla --}}
             <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
                 <div class="p-6 border-b">
                     <p class="text-sm text-gray-600">
@@ -73,7 +69,7 @@
 
                 <div class="overflow-x-auto">
                     <table class="min-w-full text-sm">
-                        <thead class="bg-gray-50 text-gray-700">
+                        <thead class="bg-red-600 text-white">
                             <tr>
                                 <th class="text-left px-4 py-3">Fecha</th>
                                 <th class="text-left px-4 py-3">Evento</th>

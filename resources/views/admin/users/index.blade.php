@@ -5,10 +5,9 @@
                 Usuarios
             </h2>
 
-            <a href="{{ route('users.create') }}"
-               class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md
-                      font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700">
-                Crear usuario
+            <a href="{{ route('admin.users.create') }}"
+               class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md">
+                Nuevo
             </a>
         </div>
     </x-slot>
@@ -25,7 +24,7 @@
                 <div class="p-6">
                     <div class="overflow-x-auto">
                         <table class="min-w-full text-sm">
-                            <thead>
+                            <thead class="bg-red-600 text-white">
                                 <tr class="text-left border-b">
                                     <th class="py-2 pr-4">Nombre</th>
                                     <th class="py-2 pr-4">Documento</th>
@@ -58,7 +57,7 @@
                                         </td>
                                         <td class="py-2 pr-4">
                                             <a class="text-indigo-600 hover:underline"
-                                               href="{{ route('users.edit', $user) }}">
+                                               href="{{ route('admin.users.edit', $user) }}">
                                                 Editar
                                             </a>
                                         </td>

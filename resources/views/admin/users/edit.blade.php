@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
 
-                    <form method="POST" action="{{ route('users.update', $user) }}" class="space-y-4">
+                    <form method="POST" action="{{ route('admin.users.update', $user) }}" class="space-y-4">
                         @csrf
                         @method('PUT')
 
@@ -90,8 +90,8 @@
                         </div>
 
                         <div class="flex items-center justify-end gap-3 pt-2">
-                            <a href="{{ route('users.index') }}" class="text-gray-600 hover:underline">Volver</a>
-                            <x-primary-button>Actualizar</x-primary-button>
+                            <a href="{{ route('admin.users.index') }}" class="px-4 py-2 rounded border bg-sky-800 text-white">Cancelar</a>
+							<button class="px-4 py-2 bg-red-600 text-white rounded">Actualizar</button>
                         </div>
                     </form>
 

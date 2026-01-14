@@ -57,7 +57,7 @@ class UserController extends Controller
 
 		$user->syncRoles([$data['role']]);
 
-		return redirect()->route('users.index')->with('success', 'Usuario creado');
+		return redirect()->route('admin.users.index')->with('success', 'Usuario creado');
 	}
 	
 	public function update(Request $request, User $user)
@@ -110,7 +110,7 @@ class UserController extends Controller
 
 		$user->syncRoles([$data['role']]);
 
-		return redirect()->route('users.index')->with('success', 'Usuario actualizado');
+		return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado');
 	}
 
 }
