@@ -14,6 +14,19 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
+	<script src="https://unpkg.com/lucide@latest"></script>
+	<script>
+	  document.addEventListener("DOMContentLoaded", () => {
+		if (window.lucide) window.lucide.createIcons();
+	  });
+
+	  // Si cambias el DOM con Alpine (abrir/cerrar menú), vuelve a “pintar” iconos:
+	  document.addEventListener("alpine:init", () => {
+		document.addEventListener("alpine:updated", () => {
+		  if (window.lucide) window.lucide.createIcons();
+		});
+	  });
+	</script>
 	<body class="font-sans antialiased">
         <div
             x-data="{ sidebarOpen: false }"
