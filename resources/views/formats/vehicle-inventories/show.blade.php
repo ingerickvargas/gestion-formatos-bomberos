@@ -81,6 +81,7 @@
                                 <th class="text-left px-4 py-3">Cantidad</th>
                                 <th class="text-left px-4 py-3">Lote</th>
                                 <th class="text-left px-4 py-3">Fecha Vencimiento</th>
+								<th class="px-4 py-2">Semáforo</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y">
@@ -112,6 +113,25 @@
                                     <td class="px-4 py-3">
                                         {{ $item->supply?->expires_at ?? '—' }}
                                     </td>
+									<td class="px-4 py-2 text-center">
+										<span
+											class="
+												inline-block w-10 h-4
+												@if($item->supply->semaphore === 'green') bg-green-500
+												@elseif($item->supply->semaphore === 'yellow') bg-yellow-400
+												@elseif($item->supply->semaphore === 'red') bg-red-500
+												@else bg-gray-300
+												@endif
+											"
+											title="
+												@if($item->supply->semaphore === 'green') Vence en más de 12 meses
+												@elseif($item->supply->semaphore === 'yellow') Vence entre 3 y 12 meses
+												@elseif($item->supply->semaphore === 'red') Vence en menos de 3 meses
+												@else Sin fecha de vencimiento
+												@endif
+											"
+										></span>
+									</td>
                                 </tr>
                             @empty
                                 <tr>

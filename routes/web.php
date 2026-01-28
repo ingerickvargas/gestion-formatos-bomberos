@@ -14,6 +14,7 @@ use App\Http\Controllers\Formats\PatientRecordController;
 use App\Http\Controllers\Formats\VehicleExitReportController;
 use App\Http\Controllers\VehiclePreoperationalCheckController;
 use App\Http\Controllers\Formats\PatientCareFormController;
+use App\Http\Controllers\Formats\TrafficAccidentFormController;
 
 Route::get('/', function () {
     return auth()->check()
@@ -34,9 +35,13 @@ Route::middleware(['auth', 'active'])->group(function () {
 	});
 		
     Route::prefix('formatos')->name('formats.')->group(function () {
+		Route::resource('traffic-accident-forms', TrafficAccidentFormController::class)
+        ->parameters(['traffic-accident-forms' => 'form']);
+		Route::get('traffic-accident-forms/{form}/export-pdf', [TrafficAccidentFormController::class,'exportPdf'])
+		->name('traffic-accident-forms.export-pdf');
 		Route::resource('patient-care-forms', PatientCareFormController::class)->except(['destroy']);
 		Route::get('patient-care-forms/{patient_care_form}', [PatientCareFormController::class, 'show'])
-			->name('patient-care-forms.show');
+		->name('patient-care-forms.show');
 		Route::get('formatos/patient-care-forms/export-pdf', [PatientCareFormController::class, 'exportPdf'])
 		->name('patient-care-forms.export-pdf');
 		Route::get('patient-care-forms/{form}/attachment', [PatientCareFormController::class, 'downloadAttachment'])
@@ -50,48 +55,36 @@ Route::middleware(['auth', 'active'])->group(function () {
 		Route::resource('vehicle-shift-handoffs', VehicleShiftHandoffController::class)->except(['destroy']);
 		Route::resource('vehicle-cleanings', VehicleCleaningController::class)->except(['destroy']);
 		Route::get('vehicle-inventories', [VehicleInventoryController::class, 'index'])
-			->name('vehicle-inventories.index');
+		->name('vehicle-inventories.index');
 		Route::get('vehicle-inventories/create', [VehicleInventoryController::class, 'create'])
-			->name('vehicle-inventories.create');
+		->name('vehicle-inventories.create');
 		Route::post('vehicle-inventories', [VehicleInventoryController::class, 'store'])
-			->name('vehicle-inventories.store');
+		->name('vehicle-inventories.store');
 		Route::get('vehicle-inventories/{vehicleInventory}', [VehicleInventoryController::class, 'show'])
-			->name('vehicle-inventories.show');
+		->name('vehicle-inventories.show');
 
-		// JSON vehículo (para autocompletar)
 		Route::get('vehicles/{vehicle}/json', [VehicleInventoryController::class, 'vehicleJson'])
-			->name('vehicles.json');
-
-		// Edit/update SOLO admin (regla de negocio)
+		->name('vehicles.json');
 		Route::middleware('role:admin')->group(function () {
 			Route::get('vehicle-inventories/{vehicleInventory}/edit', [VehicleInventoryController::class, 'edit'])
-				->name('vehicle-inventories.edit');
-
+			->name('vehicle-inventories.edit');
 			Route::put('vehicle-inventories/{vehicleInventory}', [VehicleInventoryController::class, 'update'])
-				->name('vehicle-inventories.update');
+			->name('vehicle-inventories.update');
 		});
-		// Guardia
 		Route::get('vehicle-exit-reports', [VehicleExitReportController::class, 'index'])
-			->name('vehicle-exit-reports.index');
-
+		->name('vehicle-exit-reports.index');
 		Route::get('vehicle-exit-reports/create', [VehicleExitReportController::class, 'create'])
-			->name('vehicle-exit-reports.create');
-
+		->name('vehicle-exit-reports.create');
 		Route::post('vehicle-exit-reports', [VehicleExitReportController::class, 'store'])
-			->name('vehicle-exit-reports.store');
-
+		->name('vehicle-exit-reports.store');
 		Route::get('vehicle-exit-reports/{report}', [VehicleExitReportController::class, 'show'])
-			->name('vehicle-exit-reports.show');
-
-		// Conductor
+		->name('vehicle-exit-reports.show');
 		Route::get('vehicle-exit-reports-pending', [VehicleExitReportController::class, 'pending'])
-			->name('vehicle-exit-reports.pending');
-
+		->name('vehicle-exit-reports.pending');
 		Route::get('vehicle-exit-reports/{report}/driver', [VehicleExitReportController::class, 'driverForm'])
-			->name('vehicle-exit-reports.driver-form');
-
+		->name('vehicle-exit-reports.driver-form');
 		Route::put('vehicle-exit-reports/{report}/driver', [VehicleExitReportController::class, 'driverUpdate'])
-			->name('vehicle-exit-reports.driver-update');
+		->name('vehicle-exit-reports.driver-update');
 	});
 
     Route::get('/dashboard', function () {

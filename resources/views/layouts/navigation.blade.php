@@ -97,19 +97,25 @@
 
             <a href="{{ route('dashboard') }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('dashboard') ? 'bg-gray-100 font-semibold' : '' }}">
-                <span class="w-5 text-center">🏠</span>
+                <span class="w-5 text-center">
+				<i data-lucide="home" class="w-5 h-5"></i>
+				</span>
                 <span>Inicio</span>
             </a>
 
             <a href="{{ route('modules.vehicle-preoperational-checks.index') }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('preoperacional.*') ? 'bg-gray-100 font-semibold' : '' }}">
-                <span class="w-5 text-center">🚒</span>
+                <span class="w-5 text-center">
+				<i data-lucide="truck" class="w-5 h-5"></i>
+				</span>
                 <span>Preoperacional Vehículos</span>
             </a>
 
             <a href="{{ route('admin.supplies.index') }}"
 			   class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('admin.supplies.*') ? 'bg-gray-100 font-semibold' : '' }}">
-				<span class="w-5 text-center">📦</span>
+				<span class="w-5 text-center">
+				<i data-lucide="package" class="w-5 h-5"></i>
+				</span>
 				<span>Inventario de Insumos</span>
 			</a>
 			<div x-data="{ openFormats: {{ request()->is('formatos/*') ? 'true' : 'false' }} }" class="space-y-1">
@@ -120,7 +126,9 @@
 						   {{ request()->is('formatos/*') ? 'bg-gray-100 font-semibold' : '' }}"
 				>
 					<span class="flex items-center gap-3">
-						<span class="w-5 text-center">📄</span>
+						<span class="w-5 text-center">
+						<i data-lucide="file-text" class="w-5 h-5"></i>
+						</span>
 						<span>Formatos</span>
 					</span>
 					<svg class="w-4 h-4 text-gray-500 transform transition"
@@ -133,61 +141,95 @@
 				<div x-show="openFormats" x-collapse class="pl-9 space-y-1">
 					<a
 						href="{{ route('formats.vehicle-inventories.index') }}"
-						class="block px-3 py-2 rounded-md hover:bg-gray-100
+						class="flex items-center gap-1 block px-3 py-2 rounded-md hover:bg-gray-100
 							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
 					>
-						Inventario por vehículo
+					<span class="w-5 text-center">
+						<i data-lucide="folder-open" class="w-5 h-5"></i>
+					</span>
+                    <span>Inventario por vehículo</span>
 					</a>
 
 					<a
 						href="{{ route('formats.vehicle-environment-logs.index') }}"
-						class="block px-3 py-2 rounded-md hover:bg-gray-100
+						class="flex items-center gap-1 block px-3 py-2 rounded-md hover:bg-gray-100
 							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
 					>
-						Temperatura - Humedad Vehículos
+					<span class="w-5 text-center">
+						<i data-lucide="folder-open" class="w-5 h-5"></i>
+					</span>
+                    <span>Temperatura - Humedad</span>
 					</a>
 					<a
 						href="{{ route('formats.vehicle-shift-handoffs.index') }}"
-						class="block px-3 py-2 rounded-md hover:bg-gray-100
+						class="flex items-center gap-1 block px-3 py-2 rounded-md hover:bg-gray-100
 							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
 					>
-						Entrega de turno
+					<span class="w-5 text-center">
+						<i data-lucide="folder-open" class="w-5 h-5"></i>
+					</span>
+                    <span>Entrega de turno</span>
 					</a>
 					<a
 						href="{{ route('formats.vehicle-cleanings.index') }}"
-						class="block px-3 py-2 rounded-md hover:bg-gray-100
+						class="flex items-center gap-1 block px-3 py-2 rounded-md hover:bg-gray-100
 							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
 					>
-						Formato aseo
+					<span class="w-5 text-center">
+						<i data-lucide="folder-open" class="w-5 h-5"></i>
+					</span>
+                    <span>Formato de aseo</span>
 					</a>
 					<a
 						href="{{ route('formats.patient-records.index') }}"
-						class="block px-3 py-2 rounded-md hover:bg-gray-100
+						class="flex items-center gap-1 block px-3 py-2 rounded-md hover:bg-gray-100
 							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
 					>
-						Registro pacientes
+					<span class="w-5 text-center">
+						<i data-lucide="folder-open" class="w-5 h-5"></i>
+					</span>
+                    <span>Registro de pacientes</span>
 					</a>
 					@hasanyrole('admin|operativo')
 					<a
 						href="{{ route('formats.vehicle-exit-reports.index') }}"
-						class="block px-3 py-2 rounded-md hover:bg-gray-100
+						class="flex items-center gap-1 block px-3 py-2 rounded-md hover:bg-gray-100
 							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
 					>
-						Informe salida vehicular
+					<span class="w-5 text-center">
+						<i data-lucide="folder-open" class="w-5 h-5"></i>
+					</span>
+                    <span>Informe salida vehicular</span>
 					</a>
 					@endhasanyrole
 					@hasanyrole('admin|conductor|operativo')
 					<a
 						href="{{ route('formats.vehicle-exit-reports.pending') }}"
-						class="block px-3 py-2 rounded-md hover:bg-gray-100
+						class="flex items-center gap-1 block px-3 py-2 rounded-md hover:bg-gray-100
 							   {{ request()->routeIs('formats.vehicle-inventories.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
 					>
-						Mis informes pendientes
+					<span class="w-5 text-center">
+						<i data-lucide="folder-open" class="w-5 h-5"></i>
+					</span>
+                    <span>Informes pendientes</span>
 					</a>
 					@endhasanyrole
 					<a href="{{ route('formats.patient-care-forms.index') }}"
-					   class="block px-3 py-2 rounded-md hover:bg-gray-100">
-					   Formulario atención pacientes
+					   class="flex items-center gap-1 block px-3 py-2 rounded-md hover:bg-gray-100">
+					   <span class="w-5 text-center">
+							<i data-lucide="folder-open" class="w-5 h-5"></i>
+					   </span>
+					   <span>Atención a pacientes</span>
+					</a>
+					<a
+						href="{{ route('formats.traffic-accident-forms.index') }}"
+						class="flex items-center gap-1 block px-3 py-2 rounded-md hover:bg-gray-100
+							   {{ request()->routeIs('formats.traffic-accident-forms.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
+					>
+					<span class="w-5 text-center">
+						<i data-lucide="folder-open" class="w-5 h-5"></i>
+					</span>
+                    <span>Accdidente de transíto</span>
 					</a>
 				</div>
             @role('admin')
@@ -197,17 +239,23 @@
 
                 <a href="{{ route('admin.users.index') }}"
                    class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('users.*') ? 'bg-gray-100 font-semibold' : '' }}">
-                    <span class="w-5 text-center">👥</span>
+                    <span class="w-5 text-center">
+						<i data-lucide="users" class="w-5 h-5"></i>
+					</span>
                     <span>Usuarios</span>
                 </a>
 				<a href="{{ route('admin.vehicles.index') }}"
 				   class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('admin.vehicles.*') ? 'bg-gray-100 font-semibold' : '' }}">
-				  <span class="w-5 text-center">🚑</span>
+				  <span class="w-5 text-center">
+				  <i data-lucide="car" class="w-5 h-5"></i>
+				  </span>
 				  <span>Vehículos</span>
 				</a>
                 <a href="{{ route('admin.access-logs.index') }}"
                    class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 {{ request()->routeIs('admin.access-logs.*') ? 'bg-gray-100 font-semibold' : '' }}">
-                    <span class="w-5 text-center">🛡️</span>
+                    <span class="w-5 text-center">
+					<i data-lucide="shield" class="w-5 h-5"></i>
+					</span>
                     <span>Logs de Acceso</span>
                 </a>
             @endrole
