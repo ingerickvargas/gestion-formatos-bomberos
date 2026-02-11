@@ -17,7 +17,7 @@ class StorePatientRecordRequest extends FormRequest
         $base = [
 		  'tipo_formato' => ['required', Rule::in(['ANCIANATO','ALCALDIA','BOMBEROS'])],
 		  'patient_name' => ['required','string','max:255'],
-		  'document' => ['nullable','styyring','max:50'],
+		  'document' => ['nullable','string','max:50'],
 		  'age' => ['nullable','integer','min:0','max:130'],
 		  'phone' => ['nullable','string','max:30'],
 		  'address' => ['nullable','string','max:255'],

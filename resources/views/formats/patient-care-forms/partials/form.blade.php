@@ -1,6 +1,5 @@
 @php
   $form = $form ?? null;
-
   $usersJson = $users->map(fn($u) => [
     'id' => $u->id,
     'name' => $u->name,
@@ -16,12 +15,10 @@
     driverDoc: '{{ old('driver_document', $form->driver_document ?? '') }}',
     crew1Doc: '{{ old('crew1_document', $form->crew1_document ?? '') }}',
     crew2Doc: '{{ old('crew2_document', $form->crew2_document ?? '') }}',
-
     pickDoc(id) {
       const u = this.users.find(x => String(x.id) === String(id));
       return u ? (u.document ?? '') : '';
     },
-
     syncDocs() {
       this.driverDoc = this.pickDoc(this.driverId);
       this.crew1Doc = this.pickDoc(this.crew1Id);

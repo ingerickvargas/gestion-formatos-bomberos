@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateVehicleCleaningRequest;
 use App\Models\Vehicle;
 use App\Models\VehicleCleaning;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\VehicleCleaningsExport;
 
 class VehicleCleaningController extends Controller
 {
@@ -102,4 +104,21 @@ class VehicleCleaningController extends Controller
     {
         //
     }
+
+	public function export(Request $request)
+	{
+		$plate = trim((string) $request->get('plate', ''));
+		$date  = trim((string) $request->get('date', ''));
+
+		if ($plate === '' && $date === '') {
+			return redirect()
+				->route('formats.vehicle-cleanings.index')
+				->with('error', 'Debes aplicar al menos un filtro para exportar.');
+		}
+
+		return Excel::download(
+			new VehicleCleaningsExport($plate, $date),
+			'vehicle-cleanings.xlsx'
+		);
+	}
 }

@@ -40,12 +40,10 @@
               $key = $c['key'];
               $val = data_get($r, $key);
 
-              // Formateos típicos (ajusta si necesitas):
               if (in_array($key, ['service_date','attention_date']) && $val) {
                 try { $val = \Carbon\Carbon::parse($val)->format('Y-m-d'); } catch (\Throwable $e) {}
               }
               if ($key === 'service_time' && $val) {
-                // si viene como HH:MM:SS, recorta a HH:MM
                 $val = substr((string)$val, 0, 5);
               }
               if ($key === 'attention_time' && $val) {

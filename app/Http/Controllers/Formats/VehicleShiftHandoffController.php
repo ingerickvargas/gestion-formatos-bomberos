@@ -7,7 +7,9 @@ use App\Http\Requests\StoreVehicleShiftHandoffRequest;
 use App\Http\Requests\UpdateVehicleShiftHandoffRequest;
 use App\Models\Vehicle;
 use App\Models\VehicleShiftHandoff;
+use App\Exports\VehicleShiftHandoffsExport;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VehicleShiftHandoffController extends Controller
 {
@@ -105,4 +107,21 @@ class VehicleShiftHandoffController extends Controller
     {
         //
     }
+
+	public function export(Request $request)
+	{
+		$plate = trim((string) $request->get('plate', ''));
+		$date  = trim((string) $request->get('date', ''));
+
+		if ($plate === '' && $date === '') {
+			return redirect()
+				->route('formats.vehicle-shift-handoffs.index')
+				->with('error', 'Debes aplicar al menos un filtro para exportar.');
+		}
+
+		return Excel::download(
+			new VehicleShiftHandoffsExport($plate, $date),
+			'vehicle-shift-handoffs.xlsx'
+		);
+	}
 }

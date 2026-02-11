@@ -7,7 +7,9 @@ use App\Http\Requests\StoreVehicleEnvironmentLogRequest;
 use App\Http\Requests\UpdateVehicleEnvironmentLogRequest;
 use App\Models\Vehicle;
 use App\Models\VehicleEnvironmentLog;
+use App\Exports\VehicleEnvironmentLogsExport;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VehicleEnvironmentLogController extends Controller
 {
@@ -75,6 +77,23 @@ class VehicleEnvironmentLogController extends Controller
             ->route('formats.vehicle-environment-logs.show', $vehicleEnvironmentLog)
             ->with('success', 'Registro actualizado.');
     }
+
+	public function export(Request $request)
+	{
+		$plate = trim((string) $request->get('plate', ''));
+		$date  = trim((string) $request->get('date', ''));
+
+		if ($plate === '' && $date === '') {
+			return redirect()
+				->route('formats.vehicle-environment-logs.index')
+				->with('error', 'Debes aplicar al menos un filtro para exportar.');
+		}
+
+		return Excel::download(
+			new VehicleEnvironmentLogsExport($plate, $date),
+			'vehicle-environment-logs.xlsx'
+		);
+	}
 
     public function destroy(string $id)
     {
