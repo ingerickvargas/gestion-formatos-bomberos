@@ -4,7 +4,6 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Insumos
             </h2>
-
             <a href="{{ route('admin.supplies.create') }}"
                class="px-4 py-2 bg-red-600 text-white rounded-md text-sm">
                 Nuevo
@@ -14,7 +13,6 @@
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
             @if(session('success'))
                 <div class="mb-4 p-3 rounded bg-green-50 text-green-700">
                     {{ session('success') }}
@@ -22,7 +20,7 @@
             @endif
 			@if(!empty($hasReds))
 				<div class="mb-4 rounded-md border border-red-200 bg-red-50 p-4 text-red-800">
-					<div class="font-semibold">⚠️ Atención</div>
+					<div class="font-semibold">Atención</div>
 					<div class="text-sm">
 						Hay insumos en <b>rojo</b> (vencidos o con vencimiento menor a 3 meses). Revisa el listado o filtra por <b>Rojo</b>.
 					</div>
@@ -36,16 +34,14 @@
 							   placeholder="Buscar por nombre, grupo, serie o lote"
 							   class="w-full rounded-md border-gray-300" />
 					</div>
-
 					<div class="w-full md:w-64">
 						<select name="semaforo" class="w-full rounded-md border-gray-300">
 							<option value="">Semáforo: Todos</option>
-							<option value="green"  @selected(request('semaforo')==='green')>Verde (&gt; 12 meses)</option>
-							<option value="yellow" @selected(request('semaforo')==='yellow')>Amarillo (3 a 12 meses)</option>
-							<option value="red"    @selected(request('semaforo')==='red')>Rojo (&lt; 3 meses)</option>
+							<option value="green"  @selected(request('semaforo')==='green')>Verde</option>
+							<option value="yellow" @selected(request('semaforo')==='yellow')>Amarillo</option>
+							<option value="red"    @selected(request('semaforo')==='red')>Rojo</option>
 						</select>
 					</div>
-
 					<div class="flex gap-2">
 						<button class="px-4 py-2 bg-red-600 text-white rounded-md">Filtrar</button>
 						<a href="{{ route('admin.supplies.index') }}" class="px-4 py-2 border rounded-md bg-sky-800 text-white">Limpiar</a>
@@ -56,6 +52,11 @@
 
             <div class="bg-white shadow rounded">
                 <div class="overflow-x-auto">
+					<div class="p-6 border-b">
+						<p class="text-sm text-gray-600">
+							Total (página): {{ $supplies->count() }} — Mostrando {{ $supplies->firstItem() }} a {{ $supplies->lastItem() }} de {{ $supplies->total() }}
+						</p>
+					</div>
                     <table class="min-w-full text-sm">
                         <thead class="bg-red-600 text-white">
                             <tr>
@@ -97,7 +98,6 @@
 								</td>
                                 <td class="p-3 text-right">
                                     <a href="{{ route('admin.supplies.edit', $s) }}" class="text-blue-600 hover:underline">Editar</a>
-
                                     <form action="{{ route('admin.supplies.destroy', $s) }}"
                                           method="POST"
                                           class="inline"

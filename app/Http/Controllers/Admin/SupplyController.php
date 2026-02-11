@@ -16,7 +16,7 @@ class SupplyController extends Controller
     public function index(Request $request)
     {
 		$q = Supply::query();
-		$semaforo = $request->string('semaforo')->toString(); // green|yellow|red|null
+		$semaforo = $request->string('semaforo')->toString();
 
 		if (in_array($semaforo, ['green','yellow','red'], true)) {
 			$today = Carbon::today();
@@ -116,6 +116,7 @@ class SupplyController extends Controller
 
     public function destroy(string $id)
     {
+		$supply = Supply::findOrFail($id);
         $supply->delete();
 
         return back()->with('success', 'Insumo eliminado.');

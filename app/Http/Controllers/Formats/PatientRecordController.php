@@ -36,7 +36,7 @@ class PatientRecordController extends Controller
 
     $records = $q
         ->orderByDesc('service_date')
-        ->paginate(15)
+        ->paginate(10)
         ->withQueryString();
 		
     return view('formats.patient-records.index', compact('records'));

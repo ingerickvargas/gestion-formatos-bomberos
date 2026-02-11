@@ -15,6 +15,7 @@ use App\Http\Controllers\Formats\VehicleExitReportController;
 use App\Http\Controllers\VehiclePreoperationalCheckController;
 use App\Http\Controllers\Formats\PatientCareFormController;
 use App\Http\Controllers\Formats\TrafficAccidentFormController;
+use App\Http\Controllers\Formats\AutopistasCafeFormController;
 
 Route::get('/', function () {
     return auth()->check()
@@ -39,6 +40,7 @@ Route::middleware(['auth', 'active'])->group(function () {
         ->parameters(['traffic-accident-forms' => 'form']);
 		Route::get('traffic-accident-forms/{form}/export-pdf', [TrafficAccidentFormController::class,'exportPdf'])
 		->name('traffic-accident-forms.export-pdf');
+		
 		Route::resource('patient-care-forms', PatientCareFormController::class)->except(['destroy']);
 		Route::get('patient-care-forms/{patient_care_form}', [PatientCareFormController::class, 'show'])
 		->name('patient-care-forms.show');
@@ -48,12 +50,23 @@ Route::middleware(['auth', 'active'])->group(function () {
         ->name('patient-care-forms.attachment');
 		Route::delete('patient-care-forms/{form}/attachment', [PatientCareFormController::class, 'deleteAttachment'])
         ->name('patient-care-forms.attachment.delete');
+		
 		Route::resource('patient-records', PatientRecordController::class)->except(['destroy']);
 		Route::get('formatos/patient-records/export-pdf', [PatientRecordController::class, 'exportPdf'])
 		->name('patient-records.export-pdf');
+
 		Route::resource('vehicle-environment-logs', VehicleEnvironmentLogController::class)->except(['destroy']);
+		Route::get('formatos/vehicle-environment-logs/export',[VehicleEnvironmentLogController::class, 'export']
+)		->name('vehicle-environment-logs.export');
+
 		Route::resource('vehicle-shift-handoffs', VehicleShiftHandoffController::class)->except(['destroy']);
+		Route::get('formatos/vehicle-shift-handoffs/export', [VehicleShiftHandoffController::class, 'export'])
+    	->name('vehicle-shift-handoffs.export');
+		
 		Route::resource('vehicle-cleanings', VehicleCleaningController::class)->except(['destroy']);
+		Route::get('formatos/vehicle-cleanings/export', [VehicleCleaningController::class, 'export'])
+    	->name('vehicle-cleanings.export');
+		
 		Route::get('vehicle-inventories', [VehicleInventoryController::class, 'index'])
 		->name('vehicle-inventories.index');
 		Route::get('vehicle-inventories/create', [VehicleInventoryController::class, 'create'])
@@ -63,8 +76,15 @@ Route::middleware(['auth', 'active'])->group(function () {
 		Route::get('vehicle-inventories/{vehicleInventory}', [VehicleInventoryController::class, 'show'])
 		->name('vehicle-inventories.show');
 
+		Route::resource('autopistas-cafe-forms', AutopistasCafeFormController::class)
+        ->only(['index','create','store','edit','update','show']);
+
+    	Route::get('autopistas-cafe-forms/{autopistas_cafe_form}/pdf', [AutopistasCafeFormController::class, 'pdf'])
+        ->name('autopistas-cafe-forms.pdf');
+
 		Route::get('vehicles/{vehicle}/json', [VehicleInventoryController::class, 'vehicleJson'])
 		->name('vehicles.json');
+		
 		Route::middleware('role:admin')->group(function () {
 			Route::get('vehicle-inventories/{vehicleInventory}/edit', [VehicleInventoryController::class, 'edit'])
 			->name('vehicle-inventories.edit');

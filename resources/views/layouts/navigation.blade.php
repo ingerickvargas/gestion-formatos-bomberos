@@ -229,8 +229,17 @@
 					<span class="w-5 text-center">
 						<i data-lucide="folder-open" class="w-5 h-5"></i>
 					</span>
-                    <span>Accdidente de transíto</span>
+                    <span>Accidente de tránsito</span>
 					</a>
+					<a
+						href="{{ route('formats.autopistas-cafe-forms.index') }}"
+						class="flex items-center gap-1 block px-3 py-2 rounded-md hover:bg-gray-100
+							   {{ request()->routeIs('formats.autopistas-cafe-forms.index.*') ? 'bg-gray-100 font-semibold' : '' }}"
+					>
+					<span class="w-5 text-center">
+						<i data-lucide="folder-open" class="w-5 h-5"></i>
+					</span>
+					<span>Autopistas del Café</span>
 				</div>
             @role('admin')
                 <div class="px-2 pt-4 pb-2 text-xs font-semibold text-gray-400 uppercase">

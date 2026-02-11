@@ -20,7 +20,7 @@ class VehicleExitReportController extends Controller
             ->latest();
 
         // Si quieres: filtros por placa, estado, fecha
-        $reports = $q->paginate(20)->withQueryString();
+        $reports = $q->paginate(10)->withQueryString();
 
         return view('formats.vehicle-exit-reports.index', compact('reports'));
     }

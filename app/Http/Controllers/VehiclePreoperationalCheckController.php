@@ -28,7 +28,7 @@ class VehiclePreoperationalCheckController extends Controller
             $q->whereDate('filled_date', $request->filled_date);
         }
 
-        $checks = $q->paginate(15)->withQueryString();
+        $checks = $q->paginate(10)->withQueryString();
 
         return view('modules.vehicle-preoperational-checks.index', compact('vehicles', 'checks'));
     }

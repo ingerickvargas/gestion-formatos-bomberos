@@ -39,7 +39,7 @@ class PatientCareFormController extends Controller
             });
         }
 
-        $forms = $q->latest()->paginate(15)->withQueryString();
+        $forms = $q->latest()->paginate(10)->withQueryString();
 
         $vehicles = Vehicle::orderBy('plate')->get(['id','plate']);
 

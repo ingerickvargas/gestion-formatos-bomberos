@@ -43,7 +43,7 @@ class TrafficAccidentFormController extends Controller
 			});
 		}
 
-		$forms = $query->latest()->paginate(15)->withQueryString();
+		$forms = $query->latest()->paginate(10)->withQueryString();
 		$vehicles = Vehicle::select('id','plate')->orderBy('plate')->get();
 
 		return view('formats.traffic-accident-forms.index', compact('forms','vehicles'));
